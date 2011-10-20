@@ -1,0 +1,120 @@
+<html>
+	<head>
+		<title>Question Paper Generator</title>
+		<style>
+			.TextLeft
+			{
+				position:relative;
+				right:100px;
+			}
+			.TextRight
+			{
+				 position:relative;
+				left:55px;
+			}
+			.TextCenter
+			{
+				position:relative;
+				left:200px;
+			}
+			#Header
+			{
+				text-align: center;
+			}
+			#MainContainer
+			{
+				width: 450px;
+	                        margin: 0 auto;
+				border: thin dotted;
+			}
+			.center
+			{
+			        text-align:center;
+			}
+			#Left
+			  {
+                                text-align:left;
+                                margin:0px;
+			  }
+            .questions
+            {
+                    font-size : 15px;
+            }
+            #PartB h5
+            {
+                margin : 1px;
+                
+            }
+            #PartA h3 , #PartB h3
+            {
+                margin:1px;
+            }
+	    #duration
+		{
+			position:relative;
+			right:163px;
+		}
+		</style>
+	</head>
+	<body>
+		
+		{% if form %}
+			<form method="get" action="{{ location }}" >
+				Choose Subject Name :
+				<select name="SubjectName">
+					{% for f in form %}
+						<option value="{{ f }}">{{ f }}</option>
+					{% endfor %}					
+				</select>
+				<button type="submit">Generate</button>
+			</form>
+		{% else %}
+		
+		<div id="MainContainer">
+			
+			<div id="Header">
+				<h3>VELS UNIVERSITY : SCHOOL OF ENGINEERING</h3>
+				<div>
+					<h5>
+						<span id="Left">Subject Code : {{ Subject.subject_code }}</span>
+						<span class="">Subject Name : {{ Subject.name }}</span>
+						<span class = "TextRight">Max Marks : 50 </span><br>
+						<span id="duration">Duration:90 mins</span>
+					</h5>
+				</div>
+                
+			</div>
+			<div id="PartA">
+                <h5 class='TextCenter'>Part A<span class="TextRight" >10 x 2 = 20 Marks</span></h5>
+                <ol>
+                {% for QA in QpaperA %}
+                    
+                    <li><div class="questions">
+                        {{ QA }}
+                    </div></li>
+                {% endfor %}
+                </ol>
+            </div>
+            
+		<div id="PartB">
+                <h5 class='TextCenter'>Part B 
+                <span class="TextRight" >2 x 15 = 30 Marks</span></h5>
+                <ol>
+                {% for QB in QpaperB %}
+                    {% if forloop.counter == 2 %}
+                    <h5 class="TextCenter">OR</h5>
+                    {% endif %}
+                    {% if forloop.counter == 4 %}
+                    <h5 class="TextCenter">OR</h5>
+                    {% endif %}
+                    <li><div class="questions">
+                        {{ QB }}
+                    </div></li>
+                {% endfor %}
+                </ol>
+            </div>
+		</div>
+		{% endif %}
+		
+	</body>
+</html>
