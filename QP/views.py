@@ -14,6 +14,9 @@ def GenerateQuestionPaperGetDetails(request):
             }
     if request.method == "GET":
         form['form'] = []
+        form['ExamConfigs']=[]
+        for Config in ExamConfiguration.objects.all():
+            form ['ExamConfigs'].append(Config)
         for Sub in Subject.objects.all():
             form ['form'].append(Sub)       
     return render_to_response('Question_paper_internal.html' ,form)
