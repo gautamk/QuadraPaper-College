@@ -40,6 +40,13 @@ class Question(models.Model):
     
     def __unicode__(self):
         return self.display_question()
-    
-    
-    
+class ExamConfiguration(models.Model):
+	exam_name = models.CharField(null = False , blank =False , max_length = 30)
+	unit1 = models.BooleanField()
+   	unit2 = models.BooleanField()
+   	unit3 = models.BooleanField()
+	unit4 = models.BooleanField()
+	unit5 = models.BooleanField()
+
+	def __unicode__(self):
+		return self.exam_name

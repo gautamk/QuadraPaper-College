@@ -18,10 +18,6 @@ def GenerateQuestionPaperGetDetails(request):
             form ['form'].append(Sub)       
     return render_to_response('Question_paper_internal.html' ,form)
 
-
-	
-
-
 def GenerateQuestionPaperFromDetails(request):
     
     template_values = {}

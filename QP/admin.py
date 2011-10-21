@@ -2,7 +2,7 @@
 from django.contrib import admin
 from QPaperGenerator.QP.models import *
 
-RTF = True
+RTF = False
 
 
 class CommonMedia:
@@ -60,12 +60,13 @@ class QuestionAdmin(admin.ModelAdmin):
     if RTF:
         Media = CommonMedia
  
+class ExamConfigurationAdmin(admin.ModelAdmin):
+	pass
 
 ######################################################################################3
 
 
-
-
+admin.site.register(ExamConfiguration,ExamConfigurationAdmin)
 admin.site.register(Department , DepartmentAdmin )
 admin.site.register(Subject , SubjectAdmin,  )
 admin.site.register(Question , QuestionAdmin ,  )  
