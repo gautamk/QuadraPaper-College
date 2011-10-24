@@ -10,6 +10,9 @@ urlpatterns = patterns('',
     
     (r'^QuestionPaperFrom/', 'QPaperGenerator.QP.views.GenerateQuestionPaperGetDetails'),
     (r'^GenerateQPaper/','QPaperGenerator.QP.views.GenerateQuestionPaperFromDetails'),
+    
+    (r'^GenerateQuestionPaper/','QPaperGenerator.QP.controllers.GenerateQuestionPaper'),
+    (r'^GenerationForm/','QPaperGenerator.QP.controllers.GenerationForm'),
     # Example:
     # (r'^QPaperGenerator/', include('QPaperGenerator.foo.urls')),
 
