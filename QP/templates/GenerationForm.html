@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<title>Question Paper</title>
+		<style>
+		h1{
+			text-align:center;
+			}
+		#QPaperForm{
+				text-align:center;	
+				margin : 0 auto;
+				padding :40px;
+				border-style: solid;
+				border-width: 10px;
+				border-left-width: 70px;
+				border-right-width: 70px;
+				border-color: grey;
+			}
+		
+		</style>
+	</head>
+	
+	<body>
+	<h1>Question Paper Generator</h1>
+	<div id="QPaperForm">
+	<form method='post' action="">
+		Generate Question paper in :<select name="SubjectName" title="Subject" >
+		
+		{% for sub in SubjectList  %}
+			<option value="{{ sub.id }}">{{ sub.name }}</option>
+		{% endfor %}
+		
+		</select>
+		for <select name="ExamConfiguration" title="Exam Name">
+		{% for exam in ExamConfigs  %}
+			<option value="{{ exam.id }}">{{ exam.name }}</option>
+		{% endfor %}
+		</select>
+		<button type="submit">Go !!</button>
+	</form>
+	</div>
+	</body>
+
+</html>

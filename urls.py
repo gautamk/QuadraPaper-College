@@ -16,7 +16,9 @@ urlpatterns = patterns('',
     # Uncomment the admin/doc line below to enable admin documentation:
     # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
     (r'^$','QPaperGenerator.QP.views.Root_url'),
-    (r'^photologue/', include('photologue.urls')),
+    
+    ######### Not used
+    #(r'^photologue/', include('photologue.urls')), #only needed for photologoue
     
 
 
