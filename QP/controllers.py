@@ -61,9 +61,13 @@ def GenerateQuestionPaper(request):
     exam_config = exam_config.getUnitList()
         
     questions_per_unit_partA = num_of_questions_in_partA / exam_config.__len__() 
-    extra_questions_per_unit_partA = num_of_questions_in_partA % exam_config.__len__() 
-    partA_questions = []
+    extra_questions_per_unit_partA = num_of_questions_in_partA % exam_config.__len__()
     
+    questions_per_unit_partB = num_of_questions_in_partB / exam_config.__len__() 
+    extra_questions_per_unit_partB = num_of_questions_in_partB % exam_config.__len__()
+     
+    partA_questions = []
+    partB_questions = []
     from random import random
 ##########
 #
@@ -75,7 +79,7 @@ def GenerateQuestionPaper(request):
         
         #Get all the Questions in a unit
         q_list = []
-        for q in Question.objects.filter(unit_number = ex):
+        for q in Question.objects.filter(unit_number = ex , question_type = 'A'):
             q_list.append(q)
         
         #Add the number of Questions per unit 
@@ -105,9 +109,42 @@ def GenerateQuestionPaper(request):
 #   Generate Part B Questions
 #    
 ##########
+    remaining_questions=[]
+    for ex in exam_config:
+        
+        #Get all the Questions in a unit
+        q_list = []
+        for q in Question.objects.filter(unit_number = ex , question_type = 'B'):
+            q_list.append(q)
+        
+        #Add the number of Questions per unit 
+        for i in range(questions_per_unit_partB):
+            
+            #Select a random Question and add it to the list 
+            random_no = int( q_list.__len__() * random() )
+            partB_questions.append(q_list[random_no])
+            
+            #Remove the question from the list to prevent duplication
+            q_list.remove(q_list[random_no])
+        
+        # If there are extra questions 
+        # To generate the extra Questions 
+        # add the remaining Questions to a list  
+        if not(extra_questions_per_unit_partA == 0):
+            for q in q_list:
+                remaining_questions.append(q)
+               
+    # Add Extra Questions
+    for i in range(extra_questions_per_unit_partA):
+        random_no = int( remaining_questions.__len__() * random() )
+        partB_questions.append(remaining_questions[random_no])
+        remaining_questions.remove(remaining_questions[random_no] )
     
     
-    
+    for a  in partA_questions :
+        response.write(a.__str__() +"<br>")
+    for b in partB_questions:
+        response.write(b.__str__()+"<br>")
     
     
     return response
