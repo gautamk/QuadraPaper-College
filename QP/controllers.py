@@ -22,6 +22,7 @@ def GenerationForm(request):
     
     
     from QPaperGenerator.QP.models import ExamConfiguration , Subject
+    from django.template import RequestContext
     form ={
         "SubjectList":[],
         "ExamConfigs":[],
@@ -31,13 +32,82 @@ def GenerationForm(request):
         form ['ExamConfigs'].append(Config)
     for Sub in Subject.objects.all():
             form ['SubjectList'].append(Sub)
-    return render_to_response('GenerationForm.html' ,form)
-    
-    
+    return render_to_response('GenerationForm.html' ,form , context_instance=RequestContext(request))
+
+
     
 def GenerateQuestionPaper(request):
+    
     from django.shortcuts import redirect
-    if request.method == "GET":
+    from django.http import HttpResponse
+    
+#####################    
+    if request.method == "POST":
         return redirect(GENERATION_FORM_URL)
-    if not request.user.is_authenticated():
+    if not request.user.is_superuser:
         return redirect("/")
+    response = HttpResponse()
+#####################    
+    
+    from QPaperGenerator.QP.models import Question , Subject, ExamConfiguration
+    subject_id = request.REQUEST["SubjectID"]
+    
+    #Get the list of units which are to be added in the Question Paper
+    exam_config = ExamConfiguration.objects.filter(id = request.REQUEST["ExamConfigurationID"])[0]
+    
+    num_of_questions_in_partA = exam_config.num_of_questions_in_partA
+    num_of_questions_in_partB = exam_config.num_of_questions_in_partB
+    
+    exam_config = exam_config.getUnitList()
+        
+    questions_per_unit_partA = num_of_questions_in_partA / exam_config.__len__() 
+    extra_questions_per_unit_partA = num_of_questions_in_partA % exam_config.__len__() 
+    partA_questions = []
+    
+    from random import random
+##########
+#
+#   Generate Part A Questions
+#    
+##########
+    remaining_questions=[]
+    for ex in exam_config:
+        
+        #Get all the Questions in a unit
+        q_list = []
+        for q in Question.objects.filter(unit_number = ex):
+            q_list.append(q)
+        
+        #Add the number of Questions per unit 
+        for i in range(questions_per_unit_partA):
+            
+            #Select a random Question and add it to the list 
+            random_no = int( q_list.__len__() * random() )
+            partA_questions.append(q_list[random_no])
+            
+            #Remove the question from the list to prevent duplication
+            q_list.remove(q_list[random_no])
+        
+        # If there are extra questions 
+        # To generate the extra Questions 
+        # add the remaining Questions to a list  
+        if not(extra_questions_per_unit_partA == 0):
+            for q in q_list:
+                remaining_questions.append(q)
+               
+    # Add Extra Questions
+    for i in range(extra_questions_per_unit_partA):
+        random_no = int( remaining_questions.__len__() * random() )
+        partA_questions.append(remaining_questions[random_no])
+        remaining_questions.remove(remaining_questions[random_no] )
+##########
+#
+#   Generate Part B Questions
+#    
+##########
+    
+    
+    
+    
+    
+    return response

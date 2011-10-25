@@ -29,16 +29,19 @@
 	<body>
 	<h1>What Question Paper should I generate ?</h1>
 	<div id="QPaperForm">
-	<form method='post' action="{{ actionURL }}">
+	<form method='GET' action="{{ actionURL }}">
+		{% csrf_token %}
 		<label>Generate</label> 
-		<select size='1' name="SubjectName" title="Subject" >
+		
+		<select size='1' name="SubjectID" title="Subject" >
 		
 		{% for sub in SubjectList  %}
+			
 			<option value="{{ sub.id }}" title="Department : {{ sub.department }}  Subject-Code: {{ sub.subject_code }}" >{{ sub.name }}</option>
 		{% endfor %}
 		</select>
 		<label>Question paper for </label>
-		<select size='1' name="ExamConfiguration" title="Exam Name">
+		<select size='1' name="ExamConfigurationID" title="Exam Name">
 		{% for exam in ExamConfigs  %}
 			<option value="{{ exam.id }}"
 				title="units {% if exam.unit1 %} 1 {% endif %}{% if exam.unit2 %} 2 {% endif %}{% if exam.unit3 %} 3 {% endif %}{% if exam.unit4 %} 4 {% endif %}{% if exam.unit5 %} 5 {% endif %}"
