@@ -33,9 +33,8 @@ def GenerationForm(request):
     for Sub in Subject.objects.all():
             form ['SubjectList'].append(Sub)
     return render_to_response('GenerationForm.html' ,form , context_instance=RequestContext(request))
-
-
     
+########### Generic QuestionPaper Generator ############################   
 def GenerateQuestionPaper(request):
     
     from django.shortcuts import redirect
@@ -51,9 +50,11 @@ def GenerateQuestionPaper(request):
     
     from QPaperGenerator.QP.models import Question , Subject, ExamConfiguration
     subject_id = request.REQUEST["SubjectID"]
+    subject = Subject.objects.filter(id = subject_id)[0]
+    
     
     #Get the list of units which are to be added in the Question Paper
-    exam_config = ExamConfiguration.objects.filter(id = request.REQUEST["ExamConfigurationID"])[0]
+    exam = exam_config = ExamConfiguration.objects.filter(id = request.REQUEST["ExamConfigurationID"])[0]
     
     num_of_questions_in_partA = exam_config.num_of_questions_in_partA
     num_of_questions_in_partB = exam_config.num_of_questions_in_partB
@@ -79,7 +80,7 @@ def GenerateQuestionPaper(request):
         
         #Get all the Questions in a unit
         q_list = []
-        for q in Question.objects.filter(unit_number = ex , question_type = 'A'):
+        for q in Question.objects.filter(unit_number = ex , question_type = 'A' , subject = subject ):
             q_list.append(q)
         
         #Add the number of Questions per unit 
@@ -104,6 +105,7 @@ def GenerateQuestionPaper(request):
         random_no = int( remaining_questions.__len__() * random() )
         partA_questions.append(remaining_questions[random_no])
         remaining_questions.remove(remaining_questions[random_no] )
+    
 ##########
 #
 #   Generate Part B Questions
@@ -114,7 +116,7 @@ def GenerateQuestionPaper(request):
         
         #Get all the Questions in a unit
         q_list = []
-        for q in Question.objects.filter(unit_number = ex , question_type = 'B'):
+        for q in Question.objects.filter(unit_number = ex , question_type = 'B' , subject = subject):
             q_list.append(q)
         
         #Add the number of Questions per unit 
@@ -130,21 +132,29 @@ def GenerateQuestionPaper(request):
         # If there are extra questions 
         # To generate the extra Questions 
         # add the remaining Questions to a list  
-        if not(extra_questions_per_unit_partA == 0):
+        if not(extra_questions_per_unit_partB == 0):
             for q in q_list:
                 remaining_questions.append(q)
                
     # Add Extra Questions
-    for i in range(extra_questions_per_unit_partA):
+    for i in range(extra_questions_per_unit_partB):
         random_no = int( remaining_questions.__len__() * random() )
         partB_questions.append(remaining_questions[random_no])
         remaining_questions.remove(remaining_questions[random_no] )
-    
-    
-    for a  in partA_questions :
-        response.write(a.__str__() +"<br>")
-    for b in partB_questions:
-        response.write(b.__str__()+"<br>")
-    
-    
-    return response
+
+#####################  Rendering Template  #############################
+    template_values={
+        "partA_questions":partA_questions,
+        "partB_questions":partB_questions,
+        "exam":exam,
+        "subject":subject,
+        
+    }
+    return render_to_response("QuestionPaper.html",template_values)
+
+
+#########################################################
+#####   For break Points use                            #
+#####   import pdb; pdb.set_trace()                     #
+#####   http://docs.python.org/library/pdb.html         #
+#########################################################

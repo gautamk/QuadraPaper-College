@@ -42,8 +42,15 @@ class Question(models.Model):
         return self.display_question()
 class ExamConfiguration(models.Model):
     exam_name = models.CharField(null = False , blank =False , max_length = 30)
+    duration_string = models.CharField(null= False , blank = False , max_length = 30)
+    max_marks_string = models.CharField(null= False , blank = False , max_length = 30)
+    
     num_of_questions_in_partA = models.IntegerField(null = False , blank = False)
+    partA_marks_string = models.CharField(null= False , blank = False , max_length = 30)
+    
     num_of_questions_in_partB = models.IntegerField(null = False , blank = False)
+    partB_marks_string = models.CharField(null= False , blank = False , max_length = 30)
+
     unit1 = models.BooleanField()
     unit2 = models.BooleanField()
     unit3 = models.BooleanField()
