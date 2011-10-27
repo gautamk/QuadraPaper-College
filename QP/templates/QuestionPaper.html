@@ -70,8 +70,8 @@
                 <div>
                     
                     <h2>
-                    <center>{{ exam.exam_name }}</center>
-                    <span class = "TextRight">Subject : {{ subject.subject_code }}&nbsp;</span>
+                    <center title = "Units for this exam:{{ exam.getUnitList }}">{{ exam.exam_name }}</center>
+                    <span class = "TextRight" title="Department :{{ subject.department  }}" >Subject : {{ subject.subject_code }}&nbsp;</span>
                     <span class="TextLeft">: {{ subject.name }}</span>
                             
                     </h2>

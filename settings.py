@@ -11,31 +11,31 @@ ADMINS = (
 
 MANAGERS = ADMINS
 if ( DBSELECTION == "mysql"):
-	DATABASES = {
-		'default': {
-			'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-			'NAME': 'QPaperGenerator',                      # Or path to database file if using sqlite3.
-			'USER': 'django',                      # Not used with sqlite3.
-			'PASSWORD': 'djangouser',                  # Not used with sqlite3.
-			'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-			'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
-		}
-		
-	}
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+            'NAME': 'QPaperGenerator',                      # Or path to database file if using sqlite3.
+            'USER': 'django',                      # Not used with sqlite3.
+            'PASSWORD': 'djangouser',                  # Not used with sqlite3.
+            'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+            'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        }
+        
+    }
 if ( DBSELECTION == "sqlite"):
-	DATABASES = {
-		'default':{
+    DATABASES = {
+        'default':{
 
-				'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-				'NAME': 'QPaperGenerator.db',                      # Or path to database file if using sqlite3.
-				'USER': '',                      # Not used with sqlite3.
-				'PASSWORD': '',                  # Not used with sqlite3.
-				'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-				'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+                'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+                'NAME': 'QPaperGenerator.db',                      # Or path to database file if using sqlite3.
+                'USER': '',                      # Not used with sqlite3.
+                'PASSWORD': '',                  # Not used with sqlite3.
+                'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+                'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
 
 
-			}
-	}
+            }
+    }
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -44,7 +44,7 @@ if ( DBSELECTION == "sqlite"):
 # timezone as the operating system.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'Asia/Calcutta'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -94,7 +94,7 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'QPaperGenerator.urls'
 
-TEMPLATE_DIRS = ('/home/cse/QPaperGenerator/QP/templates',
+TEMPLATE_DIRS = ('./QP/templates',
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
